@@ -84,7 +84,7 @@ server <- function(port=55555, password=NULL, maxretry=5, secure=has.sodium(), l
   ### Backup default device
   options(device.default = getOption("device"))
   if (userpng)
-    options(device = remoter::rpng)
+    options(device = remoter:::rpng)
   
   rm("port", "password", "maxretry", "showmsg", "secure", "log", "verbose", "userpng")
   invisible(gc())
@@ -241,7 +241,9 @@ remoter_server_eval <- function(env)
       set.status(ret, NULL)
     else
       set.status(ret, utils::capture.output(ret$value))
-
+      logprint("output start---------------------------------------------")
+      logprint(utils::capture.output(ret$value))
+      logprint("output finish---------------------------------------------")
     ### The output is an image from a S3 method via print.ggplot().
     if (ret$visible && is.gg.ggplot(ret$value))
     {
